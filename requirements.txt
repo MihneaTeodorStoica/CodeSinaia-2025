@@ -1,3 +1,6 @@
 requests
 ollama
 ipykernel
+pandas
+matplotlib
+seaborn
