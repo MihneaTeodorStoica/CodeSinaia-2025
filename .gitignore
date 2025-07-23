@@ -4,3 +4,7 @@ __pycache__/
 !_Data/README.md
 _Data/
 .venv/
+
+# for totp
+secret.txt
+qr_code.png
