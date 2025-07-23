@@ -10,5 +10,4 @@ prompt = "What is the capital of France?"
 response = ollama.generate(model=model_name, prompt=prompt)
 
 # Print the response
-print(type(response))
 print(response.response)

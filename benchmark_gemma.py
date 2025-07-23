@@ -4,7 +4,7 @@ import requests
 prompt = "Explain the theory of general relativity in simple terms."
 
 data = {
-    "model": "gemma3:1b",
+    "model": "deepseek-coder:6.7b",
     "messages": [{"role": "user", "content": prompt}],
     "stream": False
 }
