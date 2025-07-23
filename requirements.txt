@@ -6,3 +6,5 @@ matplotlib
 seaborn
 segno
 tqdm
+markdown2
+html2text

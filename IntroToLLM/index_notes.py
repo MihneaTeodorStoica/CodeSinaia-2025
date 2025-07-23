@@ -10,7 +10,7 @@ def load_notes(path):
         for file in files:
             if file.endswith('.md'):
                 filepath = os.path.join(root, file)
-                with open(filepath, 'r', encoding='utf-8') as f:
+                with open(filepath, 'r') as f:
                     raw = f.read()
                     html_text = markdown2.markdown(raw)
                     plain_text = html2text.HTML2Text().handle(html_text).strip()
@@ -18,5 +18,5 @@ def load_notes(path):
     return "\n".join(texts)
 
 if __name__ == "__main__":
-    notes = load_notes("D:/Git.Hub/FlorinTeo/CodeSinaia-2025.src/_Notes/0. Vineri - Setup")
+    notes = load_notes("_Notes/0. Vineri - Setup/")
     print(notes)
