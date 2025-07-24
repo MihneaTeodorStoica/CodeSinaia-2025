@@ -20,7 +20,6 @@ def calculate_azimuthal_angle(px: float, py: float) -> float:
 def check_type(pdg_code: int) -> str:
     pdg_map = {
         211: 'Pi +', -211: 'Pi -',
-
     }
     return pdg_map.get(pdg_code, f'unknown (PDG {pdg_code})')
 
