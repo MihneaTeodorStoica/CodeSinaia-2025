@@ -2,54 +2,33 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Configuration
-sigma_threshold = 0.05    # significance threshold in σ units
-batch_size = 1000        # events per batch for plotting
+sigma_threshold = 0.05
+batch_size = 10000
 
 def check_type(pdg_code: int) -> int:
-    """
-    Return +1 for π⁺ (PDG 211), -1 for π⁻ (PDG -211), 0 otherwise.
-    """
     if pdg_code == 211:
         return 1
     elif pdg_code == -211:
         return -1
     return 0
 
-
 def poisson_uncertainty(count: float) -> float:
-    """
-    Poisson uncertainty: σ = √count
-    """
     return math.sqrt(count)
 
 
 def difference(no1: float, no2: float) -> float:
-    """
-    Absolute difference between two values.
-    """
     return abs(no1 - no2)
 
 
 def combined_uncertainty(sigma1: float, sigma2: float) -> float:
-    """
-    Combined uncertainty for independent measurements:
-    σ_comb = √(σ1² + σ2²)
-    """
     return math.hypot(sigma1, sigma2)
 
 
 def significance(diff: float, comb_unc: float) -> float:
-    """
-    Significance in σ: diff / comb_unc
-    """
     return diff / comb_unc if comb_unc > 0 else float('inf')
 
 
 def process_events(input_path: str):
-    """
-    Parse events file, tally π⁺/π⁻ counts, compute stats, and plot by batches.
-    """
     total_pos = total_neg = 0
     event_count = 0
 
