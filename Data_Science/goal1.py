@@ -17,7 +17,6 @@ def calculate_pseudorapidity(pz: float, p: float) -> float:
 def calculate_azimuthal_angle(px: float, py: float) -> float:
     return math.atan2(py, px)
 
-
 def check_type(pdg_code: int) -> str:
     pdg_map = {
         211: 'Pi +', -211: 'Pi -',
