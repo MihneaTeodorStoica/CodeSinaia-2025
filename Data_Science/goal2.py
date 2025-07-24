@@ -5,12 +5,14 @@ import numpy as np
 sigma_threshold = 0.05
 batch_size = 10000
 
+
 def check_type(pdg_code: int) -> int:
     if pdg_code == 211:
         return 1
     elif pdg_code == -211:
         return -1
     return 0
+
 
 def poisson_uncertainty(count: float) -> float:
     return math.sqrt(count)
@@ -32,7 +34,6 @@ def process_events(input_path: str):
     total_pos = total_neg = 0
     event_count = 0
 
-    # Batching for plot
     pos_batches = []
     neg_batches = []
     batch_pos = batch_neg = 0
@@ -68,7 +69,6 @@ def process_events(input_path: str):
         print(f"I/O error({e.errno}): {e.strerror}")
         return
 
-    # Add last partial batch if present
     if batch_pos or batch_neg:
         pos_batches.append(batch_pos)
         neg_batches.append(batch_neg)
@@ -77,7 +77,6 @@ def process_events(input_path: str):
         print("No events processed.")
         return
 
-    # Statistical results
     avg_pos = total_pos / event_count
     avg_neg = total_neg / event_count
     sigma_pos = poisson_uncertainty(total_pos)
@@ -86,14 +85,18 @@ def process_events(input_path: str):
     sigma_comb = combined_uncertainty(sigma_pos, sigma_neg)
     sig = significance(diff, sigma_comb)
 
-    print(f"Processed {event_count} events.")
-    print(f"Total: {total_pos} π⁺, {total_neg} π⁻")
-    print(f"Average per event: {avg_pos} π⁺, {avg_neg} π⁻")
-    print(f"Poisson σ: {sigma_pos} (π⁺), {sigma_neg} (π⁻)")
-    print(f"Difference: {diff}")
-    print(f"Combined σ: {sigma_comb}")
-    print(f"Significance: {sig}σ -> ", end='')
-    print("Significant" if sig >= sigma_threshold else "Not significant")
+    # Print summary
+    summary_lines = [
+        f"Processed {event_count} events.",
+        f"Total: {total_pos} π⁺, {total_neg} π⁻",
+        f"Average per event: {avg_pos:.3f} π⁺, {avg_neg:.3f} π⁻",
+        f"Poisson σ: {sigma_pos:.2f} (π⁺), {sigma_neg:.2f} (π⁻)",
+        f"Difference: {diff}",
+        f"Combined σ: {sigma_comb:.2f}",
+        f"Significance: {sig:.2f}σ ({'Significant' if sig>=sigma_threshold else 'Not significant'})"
+    ]
+    for line in summary_lines:
+        print(line)
 
     # Plotting
     batches = len(pos_batches)
@@ -106,8 +109,20 @@ def process_events(input_path: str):
     plt.ylabel(f'Counts per {batch_size} events')
     plt.title('Batch-wise Pion Counts')
     plt.legend()
-    plt.tight_layout()
 
+    # Annotate summary on plot
+    text_x = 0.02  # fraction of axis width
+    text_y = 0.95
+    plt.gca().text(
+        text_x, text_y,
+        "\n".join(summary_lines),
+        transform=plt.gca().transAxes,
+        fontsize=8,
+        verticalalignment='top',
+        bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.7)
+    )
+
+    plt.tight_layout()
     output_file = 'pion_counts.png'
     plt.savefig(output_file, dpi=150)
     print(f"Plot saved as '{output_file}'")
