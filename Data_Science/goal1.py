@@ -40,7 +40,7 @@ def process_event(event_id: int, num_particles: int, particle_lines: list[str]) 
         phi = calculate_azimuthal_angle(px, py)
         name = check_type(pdg)
 
-        print(f"  [{idx}] {name}: px = {px}, py = {py}, pz =z {pz}")
+        print(f"  [{idx}] {name}: px = {px}, py = {py}, pz = {pz}")
         print(f"    p = {p:.8f}, pT = {pT:.8f}, eta = {eta:.8f}, phi = {phi:.8f}")
     print()
 
